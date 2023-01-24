@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Get Client's IP</title>
+    <style>
+    p, h1 {
+        color: green;
+    }
+    </style>
+<!--  short compressed minified version of the script  -->
+<script>fetch("https://api.ipify.org?format=json").then(e=>e.json()).then(e=>{let t=document.getElementById("ip");var a=e.ip;t.innerHTML=a;fetch("http://ip-api.com/json/"+a).then(e=>e.json()).then(e=>{let a=document.getElementById("company");a.innerHTML=e.org;});});</script>
+
+
+<!--<script>-->
+
+<!--&lt;!&ndash;    get client IP API  &ndash;&gt;-->
+
+<!--    fetch("https://api.ipify.org?format=json")-->
+<!--    .then(response => response.json())-->
+<!--    .then(data => {-->
+<!--        let ipPara = document.getElementById("ip");-->
+<!--        var ip = data.ip;-->
+<!--        ipPara.innerHTML = ip;-->
+
+<!--&lt;!&ndash;  Get IP company info API   &ndash;&gt;-->
+
+<!--        fetch("http://ip-api.com/json/" + ip)-->
+<!--        .then(response => response.json())-->
+<!--        .then(comp_data => {-->
+<!--            let compPara = document.getElementById("company");-->
+<!--            compPara.innerHTML = comp_data.org;-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+
+
+</head>
+<body>
+    <center>
+        <h1>Meron Gelbard</h1>
+        <h3>Public I.P address of client is:</h3>
+        <p id="ip"></p>
+        <h3>I.P address owned by:</h3>
+        <p id="company"></p>
+
+    </center>
+</body>
+</html>
