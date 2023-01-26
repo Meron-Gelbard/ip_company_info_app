@@ -7,41 +7,71 @@
         color: green;
     }
     </style>
-<!--  short compressed minified version of the script  -->
-<script>fetch("https://api.ipify.org?format=json").then(e=>e.json()).then(e=>{let t=document.getElementById("ip");var a=e.ip;t.innerHTML=a;fetch("http://ip-api.com/json/"+a).then(e=>e.json()).then(e=>{let a=document.getElementById("company");a.innerHTML=e.org;});});</script>
+
+<script>
+
+fetch("https://api.ipify.org?format=json")
+    .then(response => response.json())
+    .then(data => {
+        let ipPara = document.getElementById("client_ip");
+        var client_ip = data.ip;
+        ipPara.innerHTML = client_ip;
+
+<!--  Get company info API   -->
+
+        fetch("https://ipapi.co/" + client_ip + "/json/")
+        .then(response => response.json())
+        .then(comp_data => {
+            let compPara = document.getElementById("company_name");
+            let company_name = comp_data.org;
+            compPara.innerHTML = company_name;
 
 
-<!--<script>-->
+<!--   Get client visit time   -->
 
-<!--&lt;!&ndash;    get client IP API  &ndash;&gt;-->
+        let visit_time =  new Date().toLocaleString();
+        let timePara = document.getElementById("visit_time");
+        timePara.innerHTML = visit_time;
 
-<!--    fetch("https://api.ipify.org?format=json")-->
-<!--    .then(response => response.json())-->
-<!--    .then(data => {-->
-<!--        let ipPara = document.getElementById("ip");-->
-<!--        var ip = data.ip;-->
-<!--        ipPara.innerHTML = ip;-->
 
-<!--&lt;!&ndash;  Get IP company info API   &ndash;&gt;-->
+<!--    send client_data json to server   -->
 
-<!--        fetch("http://ip-api.com/json/" + ip)-->
-<!--        .then(response => response.json())-->
-<!--        .then(comp_data => {-->
-<!--            let compPara = document.getElementById("company");-->
-<!--            compPara.innerHTML = comp_data.org;-->
-<!--        });-->
-<!--    });-->
-<!--</script>-->
+        var client_data = {
+            "client_ip": client_ip,
+            "company_name": company_name,
+            "visit_time": visit_time};
+
+        fetch("http://127.0.0.1:5002/save_client", {
+            method: "POST",
+            body: JSON.stringify(client_data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(function (response) {
+            return response.text();
+        }).then(function (text) {
+            console.log(text);
+        });
+    });
+});
+
+</script>
 
 </head>
 <body>
     <center>
         <h1>Meron Gelbard</h1>
         <h3>Public I.P address of client is:</h3>
-        <p id="ip"></p>
+        <p id="client_ip"></p>
         <h3>I.P address owned by:</h3>
-        <p id="company"></p>
+        <p id="company_name"></p>
+        <h3>Time of visit:</h3>
+        <p id="visit_time"></p>
 
     </center>
 </body>
 </html>
+
+
+
+
